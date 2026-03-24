@@ -1,0 +1,23 @@
+{
+  "skill_name": "prd-manager",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "创建一个 v0.3.0 版本的 PRD，实现用户认证功能，包含登录页面、注册页面的界面设计",
+      "expected_output": "创建 docs/prd/v0.3.0/ 目录，包含 prd.md、plan.md、design.md（含ASCII界面图）、dev.md（含技术架构）",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "查看当前项目的所有 PRD 版本",
+      "expected_output": "列出 docs/prd/ 下的所有版本目录及其文件结构",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "在 v0.2.4 PRD 中添加一个新的需求：实现视频播放器的界面设计和技术实现",
+      "expected_output": "更新 v0.2.4/prd.md 添加新需求，更新 design.md 添加播放器界面ASCII图，更新 dev.md 添加播放器技术实现",
+      "files": ["docs/prd/v0.2.4/prd.md"]
+    }
+  ]
+}
