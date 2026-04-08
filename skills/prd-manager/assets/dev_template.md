@@ -65,23 +65,41 @@ src/
 
 如有数据库变更，描述新的/修改的数据结构。
 
-```typescript
-interface [ModelName] {
-  id: string
-  // ...
-}
+```sql
+-- 示例：新增表结构
+CREATE TABLE ... (
+  ...
+);
 ```
+
+> 完整 DDL 见 `sql/DDL.sql`，初始化数据见 `sql/DML_init.sql`
 
 ---
 
-## 5. API 变更
+## 5. 接口影响清单
 
-如有接口变更，描述新的/修改的 API。
+> 后端项目必含板块，记录当前版本对所有接口的影响
 
-| 方法 | 路径 | 描述 |
-|------|------|------|
-| GET | /api/... | ... |
-| POST | /api/... | ... |
+### 5.1 新增接口
+
+| 接口 | 说明 | 影响点 |
+|------|------|--------|
+| `POST /xxx/add` | 新增功能说明 | 需新建 Controller/Service/Mapper |
+
+### 5.2 改动接口
+
+> 必须列出字段级别的调整说明
+
+| 接口 | 改动内容 | 影响点 |
+|------|----------|--------|
+| `POST /xxx/query` | 响应新增 `fieldA`（String）、`fieldB`（Long）字段 | RespDTO 新增 2 个字段，Service 层增加聚合查询 |
+| `POST /xxx/update` | 入参新增 `fieldC`（Integer）字段 | ReqDTO 新增 1 个字段，Service 层增加校验逻辑 |
+
+### 5.3 删除接口
+
+| 接口 | 说明 | 影响点 |
+|------|------|--------|
+| `POST /xxx/old` | 废弃旧接口说明 | 前端需迁移到新接口 |
 
 ---
 
@@ -93,7 +111,16 @@ interface [ModelName] {
 
 ---
 
-## 7. 部署考虑
+## 7. 数据库变更
+
+涉及新增数据库表、新增字段或初始化数据时，SQL 脚本独立存放在版本目录下：
+
+- DDL 脚本：`docs/prd/<version>/sql/DDL.sql`
+- DML 脚本：`docs/prd/<version>/sql/DML_init.sql`
+
+---
+
+## 8. 部署考虑
 
 - 环境配置变更
 - 数据迁移（如有）
