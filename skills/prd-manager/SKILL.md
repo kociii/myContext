@@ -141,6 +141,7 @@ find docs/prd/<version> -name "*.md" | sort
 - `assets/plan_template.md` — 开发计划（含状态标记规范）
 - `assets/design_template.md` — 界面设计文档（ASCII 布局图）
 - `assets/dev_template.md` — 技术开发文档（架构、数据模型、API）
+- `assets/readme_template.md` — `docs/prd/README.md` 版本摘要模板
 
 ### 5. 扩展版本
 
@@ -297,5 +298,6 @@ docs/prd/<version>/sql/
 - `assets/plan_template.md` — 开发计划模板
 - `assets/design_template.md` — 界面设计文档模板
 - `assets/dev_template.md` — 技术开发文档模板
+- `assets/readme_template.md` — PRD 版本索引 README 模板
 - `references/ascii_design_patterns.md` — ASCII 原型设计参考
 - `references/priority_definitions.md` — P0-P3 优先级定义
