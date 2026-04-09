@@ -1,20 +1,22 @@
 ---
 name: prd-manager
-description: 管理 docs/prd/<version>/ 目录下的版本化需求文档。支持初始化、创建、查看、扩展、对比、搜索、归档 PRD 版本。当用户管理已有 PRD 版本目录或创建新版本时触发。注意：从零生成完整项目文档请使用 prd-generator。
+description: 统一管理和生成 docs/prd/<version>/ 目录下的版本化需求文档。支持从零创建完整项目文档、初始化版本目录、查看、扩展、对比、搜索、归档 PRD 版本。当用户需要新建 PRD/设计/计划，或维护已有版本化文档时触发。
 ---
 
 # PRD 管理器
 
-管理 `docs/prd/` 目录下版本化产品需求文档的 Skill。
+统一管理 `docs/prd/` 目录下版本化产品需求文档的 Skill。
 
-> **prd-manager vs prd-generator**：
-> - **prd-manager**（本 Skill）= 管理 `docs/prd/<version>/` 下的版本化文档（增删查改 + 对比 + 归档）
-> - **prd-generator** = 从零生成完整项目文档（PRD → 设计 → 计划的三阶段审批流程）
+它同时覆盖两类场景：
+
+- **生成模式**：从零产出完整项目文档（PRD → 设计 → 计划 → 技术文档）
+- **管理模式**：维护 `docs/prd/<version>/` 下的版本化文档（增删查改 + 对比 + 搜索 + 归档）
 
 ## 目录结构规范
 
 ```
 docs/prd/
+├── README.md       # 版本摘要索引（倒序，最新版本在最上方）
 ├── v0.2.0/
 │   ├── prd.md      # 产品需求文档（做什么、为什么）
 │   ├── plan.md     # 开发计划（何时做、谁来做）
@@ -35,15 +37,58 @@ docs/prd/
 根据项目类型，文档侧重点不同：
 
 **前端项目**：
+
 - `design.md` 为必含文档，描述界面设计、交互流程、组件设计
 - `dev.md` 侧重前端技术方案（组件结构、状态管理、路由设计）
 
 **后端项目**：
+
 - `dev.md` 为核心文档，必须包含「接口影响清单」板块（见下方规范）
 - `design.md` 可选，后端通常不需要界面设计
 - 涉及数据库变更时必须生成独立 SQL 脚本文件
 
 ## 操作指南
+
+### 0. 从零生成完整文档
+
+当用户提出“创建一个 PRD”“生成项目文档”“给新版本做需求和设计”等需求时，直接使用本 Skill 完成完整工作流：
+
+#### 阶段 1：生成 `prd.md`
+
+1. 收集用户需求、目标用户、优先级和范围
+2. 使用 `assets/prd_template.md` 生成 PRD
+3. 补全以下核心内容：
+   - 项目目标与成功指标
+   - 功能列表、优先级、用户故事、验收标准
+   - 非功能需求
+   - 约束条件与术语说明
+4. 向用户展示 PRD
+5. **等待用户明确确认后，再进入下一阶段**
+
+#### 阶段 2：生成 `design.md`
+
+1. 基于已确认的 `prd.md`
+2. 使用 `assets/design_template.md`
+3. 参考 `references/ascii_design_patterns.md`
+4. 输出 ASCII 原型、交互流程、组件设计、视觉规范
+5. 向用户展示设计稿
+6. **等待用户明确确认后，再进入下一阶段**
+
+#### 阶段 3：生成 `plan.md`
+
+1. 基于已确认的 `prd.md` 和 `design.md`
+2. 使用 `assets/plan_template.md`
+3. 明确技术架构、目录结构、任务拆解、数据模型、API、风险、测试和部署计划
+4. 向用户展示开发计划
+
+#### 阶段 4：按项目需要补充 `dev.md` 与 SQL
+
+1. 后端项目默认生成 `dev.md`
+2. 涉及数据库变更时生成 `sql/DDL.sql` 与 `sql/DML_init.sql`
+3. 前端项目重点补充 `design.md` 和前端实现方案
+4. 完成当前版本文档后，更新 `docs/prd/README.md` 的版本摘要
+
+> 规则：从零生成时，始终按 `PRD → Design → Plan → Dev/SQL → README 摘要` 顺序推进；PRD 和 Design 阶段都必须等待用户确认。
 
 ### 1. 初始化
 
@@ -85,11 +130,13 @@ find docs/prd/<version> -name "*.md" | sort
 1. 确定版本号（根据现有版本自动建议下一个语义化版本）
 2. **冲突检测**：若 `docs/prd/<version>/` 已存在，提示用户选择：覆盖 / 换版本号 / 取消
 3. 创建目录：`mkdir -p docs/prd/<version>`
-4. 生成文档（默认生成 prd.md + plan.md，询问是否需要 design.md 和 dev.md）
+4. 生成文档（默认至少生成 `prd.md`；前端项目补 `design.md`，后端项目补 `dev.md`，完整模式下再生成 `plan.md`）
 5. 从 `assets/` 目录加载对应模板，填入用户提供的上下文
-6. 保存文件并确认位置
+6. 更新 `docs/prd/README.md` 中的版本摘要，采用倒序排列，最新版本放在最上方
+7. 保存文件并确认位置
 
 模板文件位于 `assets/` 目录：
+
 - `assets/prd_template.md` — 产品需求文档（含用户故事格式、优先级引用）
 - `assets/plan_template.md` — 开发计划（含状态标记规范）
 - `assets/design_template.md` — 界面设计文档（ASCII 布局图）
@@ -100,6 +147,7 @@ find docs/prd/<version> -name "*.md" | sort
 1. 读取现有的 prd.md
 2. 追加新需求章节（使用用户故事格式）
 3. 如需则更新 plan.md、design.md、dev.md
+4. 若版本摘要发生变化，同步更新 `docs/prd/README.md`
 
 ### 6. 对比版本
 
@@ -128,7 +176,40 @@ find docs/prd/<version> -name "*.md" | sort
 1. 确认要归档的版本号
 2. 创建归档目录（如不存在）：`mkdir -p docs/prd/_archive/`
 3. 移动版本：`mv docs/prd/<version> docs/prd/_archive/<version>`
-4. 确认归档完成
+4. 更新 `docs/prd/README.md`，移除或调整对应版本摘要
+5. 确认归档完成
+
+### 9. 更新版本摘要 README
+
+每当新增、扩展、归档版本后，都要同步维护 `docs/prd/README.md`。
+
+要求如下：
+
+1. **采用倒序排列**：最新版本必须放在最上面
+2. **摘要信息精简清晰**：每个版本至少包含版本号、状态、日期、核心变更摘要
+3. **路径可点击**：摘要中应链接到对应版本目录或核心文档
+4. **归档版本单独分组**：如需展示历史归档版本，放在 README 下方单独区块
+
+推荐格式示例：
+
+```md
+# PRD 版本索引
+
+## 当前版本
+
+- `v0.3.0`｜⏳ 规划中｜2026-04-09
+  - 摘要：新增会员体系与支付能力设计
+  - 文档：[`prd.md`](./v0.3.0/prd.md) / [`design.md`](./v0.3.0/design.md) / [`plan.md`](./v0.3.0/plan.md)
+
+- `v0.2.4`｜🔄 进行中｜2026-03-28
+  - 摘要：优化订单流转与通知机制
+  - 文档：[`prd.md`](./v0.2.4/prd.md) / [`plan.md`](./v0.2.4/plan.md)
+
+## 已归档
+
+- `v0.1.0`｜✅ 已归档
+  - 文档：[`archive`](./_archive/v0.1.0/)
+```
 
 ### 8. 跨版本搜索
 
@@ -153,6 +234,8 @@ grep -r "<关键词>" docs/prd/ --include="*.md" -l
 ## 最佳实践
 
 - 始终使用语义化版本（v0.2.0, v1.0.0）
+- 新建项目或新版本时，优先走完整生成流程：`prd.md` → `design.md` → `plan.md`
+- 每次生成、扩展、归档版本后，都要同步更新 `docs/prd/README.md`
 - PRD 聚焦于"做什么"和"为什么"，技术细节放入 dev.md
 - 时间线和任务放入 plan.md，界面设计放入 design.md
 - 在 prd.md 中包含用户故事和验收标准
@@ -196,10 +279,12 @@ docs/prd/<version>/sql/
 ```
 
 **DDL.sql** 包含：
+
 - `CREATE TABLE` 建表语句（含完整字段、索引、约束、注释）
 - `ALTER TABLE` 新增字段、新增索引语句
 
 **DML_init.sql** 包含：
+
 - 字典数据初始化（如权益类型、角色模板等）
 - 历史数据迁移/回填语句（注释形式，按需执行）
 - 执行前提说明（如"先执行 DDL.sql"）
@@ -212,4 +297,5 @@ docs/prd/<version>/sql/
 - `assets/plan_template.md` — 开发计划模板
 - `assets/design_template.md` — 界面设计文档模板
 - `assets/dev_template.md` — 技术开发文档模板
+- `references/ascii_design_patterns.md` — ASCII 原型设计参考
 - `references/priority_definitions.md` — P0-P3 优先级定义

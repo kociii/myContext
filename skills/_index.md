@@ -5,11 +5,8 @@
 ## 全部 Skills
 
 ### 产品开发
-- **prd-generator** - PRD 生成器
-  - 用途：根据需求描述生成标准 PRD 文档
-  - 路径：[prd-generator](./prd-generator/)
 - **prd-manager** - PRD 管理器
-  - 用途：管理 docs/prd/<version>/ 下的版本化需求文档（增删查改、对比、归档）
+  - 用途：统一处理从零生成 PRD 文档，以及 `docs/prd/<version>/` 下的版本化管理
   - 路径：[prd-manager](./prd-manager/)
 
 ### 开发工具
@@ -24,7 +21,7 @@
 
 | 用途 | Skills |
 |------|--------|
-| 文档生成 | prd-generator, prd-manager |
+| 文档生成 | prd-manager |
 | 代码示例 | claude-api |
 | 联网访问 | web-access |
 
@@ -33,7 +30,7 @@
 ### 复制 Skill
 ```bash
 # 复制到项目
-.cp -r skills/prd-generator /path/to/project/.claude/skills/
+.cp -r skills/prd-manager /path/to/project/.claude/skills/
 ```
 
 ---
