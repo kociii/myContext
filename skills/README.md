@@ -7,7 +7,15 @@
 | Skill | 说明 | 路径 |
 |-------|------|------|
 | PRD 生成器 | 自动生成产品需求文档 | [prd-generator](./prd-generator/) |
+| PRD 管理器 | 管理版本化 PRD 文档 | [prd-manager](./prd-manager/) |
 | Claude API | Claude API 使用示例 | [claude-api](./claude-api/) |
+| web-access | 统一处理搜索、抓取、网页登录与浏览器交互 | [web-access](./web-access/) |
+
+## 当前状态
+
+- 已纳入项目内维护的 Skill 共 `4` 个
+- 新增：`web-access`（版本 `2.4.1`）
+- 目录状态：`SKILL.md`、`scripts/`、`references/` 已完整同步到仓库
 
 ## 使用方法
 

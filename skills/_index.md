@@ -16,6 +16,9 @@
 - **claude-api** - Claude API 示例
   - 用途：Claude API 调用示例代码
   - 路径：[claude-api](./claude-api/)
+- **web-access** - 浏览器联网访问
+  - 用途：统一处理搜索、网页抓取、登录态访问、动态页面和浏览器交互
+  - 路径：[web-access](./web-access/)
 
 ## 按用途分类
 
@@ -23,6 +26,7 @@
 |------|--------|
 | 文档生成 | prd-generator, prd-manager |
 | 代码示例 | claude-api |
+| 联网访问 | web-access |
 
 ## 快速使用模板
 
@@ -34,4 +38,4 @@
 
 ---
 
-*最后更新：2026-04-07*
+*最后更新：2026-04-09*

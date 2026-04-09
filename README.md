@@ -20,6 +20,13 @@
 - [每日日志](./journal) - 对话记录和日常笔记
 - [Skills](./skills) - Claude Skills 合集
 
+## 当前状态
+
+- Skills 仓库已收录 `web-access`，路径：`skills/web-access`
+- 当前 Skills 清单：`prd-generator`、`prd-manager`、`claude-api`、`web-access`
+- `web-access` 当前同步版本：`2.4.1`
+- `web-access` 已包含 `SKILL.md`、`scripts/`、`references/`，可继续按项目需要复制到实际运行环境
+
 ## 目录结构
 
 ```
@@ -82,4 +89,4 @@ myContext/
 
 ---
 
-*最后更新：2026-03-11*
+*最后更新：2026-04-09*
