@@ -24,7 +24,8 @@
 
 - Skills 仓库已收录 `web-access`，路径：`skills/web-access`
 - 当前 Skills 清单：`prd-manager`、`claude-api`、`web-access`
-- `prd-manager` 现为 PRD 相关主入口，负责生成与版本化管理
+- `prd-manager` 现为 PRD 相关主入口，负责生成与版本化管理（含文档边界规范、项目代码审查流程）
+- `prd-manager` 模板集：`prd_template`、`plan_template`、`design_template`、`dev_template`、`readme_template`
 - `web-access` 当前同步版本：`2.4.1`
 - `web-access` 已包含 `SKILL.md`、`scripts/`、`references/`，可继续按项目需要复制到实际运行环境
 
@@ -90,4 +91,4 @@ myContext/
 
 ---
 
-*最后更新：2026-04-09*
+*最后更新：2026-04-10*
